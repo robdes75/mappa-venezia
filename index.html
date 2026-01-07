@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #map {
@@ -50,10 +50,45 @@ html, body {
     font-size: 16px;
   }
 }
+  #closeMap {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 2000;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+body.map-open {
+  overflow: hidden;
+}
+
+body.map-open #map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1500;
+}
+
+body.map-open #closeMap {
+  display: block;
+}
+
 </style>
 
 </head>
 <body>
+  
+<div id="closeMap" onclick="closeMap()">✕</div>
 
 <div id="controls">
   <select id="sestiereSelect">
@@ -62,11 +97,22 @@ html, body {
   </select><br>
   <input type="text" id="search" placeholder="Cerca per nome">
 </div>
+  <button onclick="openMap()">Apri mappa</button>
 
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
+function openMap() {
+  document.body.classList.add("map-open");
+  map.invalidateSize();
+}
+
+function closeMap() {
+  document.body.classList.remove("map-open");
+}
+</script>
 var map = L.map('map', {
   zoomControl: true,
   tap: false
