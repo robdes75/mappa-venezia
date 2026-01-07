@@ -2,12 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Mappa Venezia – filtro sestiere</title>
+<title>Mappa Venezia – filtro e ricerca</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 body { margin:0; }
 #map { height: 100vh; }
-#filter {
+
+#controls {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -17,18 +18,29 @@ body { margin:0; }
   border-radius: 4px;
   font-family: sans-serif;
 }
+
+#search {
+  width: 200px;
+  margin-top: 4px;
+}
 </style>
 </head>
 <body>
-<div id="filter">
-<select id="sestiereSelect">
-<option value="ALL">Tutti i sestieri</option>
-<option value="Birri. M indice">Birri. M indice</option><option value="Cannaregio. Vedi Pozzetto">Cannaregio. Vedi Pozzetto</option><option value="Carmini">Carmini</option><option value="Carmini. Vedi Briati">Carmini. Vedi Briati</option><option value="Castello">Castello</option><option value="Celestia">Celestia</option><option value="Fava">Fava</option><option value="Frari">Frari</option><option value="Gesuati">Gesuati</option><option value="Gesuiti">Gesuiti</option><option value="Gesuiti. C indice">Gesuiti. C indice</option><option value="Gesuiti. M indice">Gesuiti. M indice</option><option value="Giudecca">Giudecca</option><option value="Giudecca. Vedi Morto">Giudecca. Vedi Morto</option><option value="Maddalena">Maddalena</option><option value="Maddalena. T indice">Maddalena. T indice</option><option value="Madonna dell">Madonna dell</option><option value="Rialto">Rialto</option><option value="S. Alvise">S. Alvise</option><option value="S. Alvise. Vedi S. Alvise">S. Alvise. Vedi S. Alvise</option><option value="S. Angelo">S. Angelo</option><option value="S. Antonino">S. Antonino</option><option value="S. Apollinare">S. Apollinare</option><option value="S. Aponal. Vedi Tiepolo">S. Aponal. Vedi Tiepolo</option><option value="S. Barnaba">S. Barnaba</option><option value="S. Barnaba. Vedi Girardini">S. Barnaba. Vedi Girardini</option><option value="S. Bartolammeo">S. Bartolammeo</option><option value="S. Bartolomeo. P indice">S. Bartolomeo. P indice</option><option value="S. Basilio">S. Basilio</option><option value="S. Benedetto">S. Benedetto</option><option value="S. Benedetto. Vedi S. Benedetto">S. Benedetto. Vedi S. Benedetto</option><option value="S. Bonaventura">S. Bonaventura</option><option value="S. Canciano">S. Canciano</option><option value="S. Canciano. B indice">S. Canciano. B indice</option><option value="S. Canciano. C indice">S. Canciano. C indice</option><option value="S. Canciano. F indice">S. Canciano. F indice</option><option value="S. Canciano. G indice">S. Canciano. G indice</option><option value="S. Cassiano">S. Cassiano</option><option value="S. Cassiano. Vedi Cristo">S. Cassiano. Vedi Cristo</option><option value="S. Cassiano. Vedi Pin">S. Cassiano. Vedi Pin</option><option value="S. Eustachio">S. Eustachio</option><option value="S. Fantino">S. Fantino</option><option value="S. Felice">S. Felice</option><option value="S. Felice. Vedi Pali">S. Felice. Vedi Pali</option><option value="S. Fosca">S. Fosca</option><option value="S. Fosca. D indice">S. Fosca. D indice</option><option value="S. Fosca. Vedi Daniele Canal">S. Fosca. Vedi Daniele Canal</option><option value="S. Francesco della Vigna">S. Francesco della Vigna</option><option value="S. Francesco della Vigna. Vedi Cappeller">S. Francesco della Vigna. Vedi Cappeller</option><option value="S. Francesco della Vigna. Vedi Pignater">S. Francesco della Vigna. Vedi Pignater</option><option value="S. Francesco della Vigna. Vedi Ponte. D indice">S. Francesco della Vigna. Vedi Ponte. D indice</option><option value="S. Geremia">S. Geremia</option><option value="S. Giacomo dall">S. Giacomo dall</option><option value="S. Gio. Grisostomo. U indice">S. Gio. Grisostomo. U indice</option><option value="S. Giobbe">S. Giobbe</option><option value="S. Giobbe. Vedi Beccherie">S. Giobbe. Vedi Beccherie</option><option value="S. Giobbe. Vedi S. Giobbe">S. Giobbe. Vedi S. Giobbe</option><option value="S. Giovanni Decollato">S. Giovanni Decollato</option><option value="S. Giovanni Evangelista">S. Giovanni Evangelista</option><option value="S. Giovanni Grisostomo">S. Giovanni Grisostomo</option><option value="S. Giovanni Grisostomo. G indice">S. Giovanni Grisostomo. G indice</option><option value="S. Giovanni Novo">S. Giovanni Novo</option><option value="S. Giovanni Nuovo">S. Giovanni Nuovo</option><option value="S. Giovanni in Bragora">S. Giovanni in Bragora</option><option value="S. Girolamo">S. Girolamo</option><option value="S. Giuliano">S. Giuliano</option><option value="S. Giuliano. S indice">S. Giuliano. S indice</option><option value="S. Giuseppe">S. Giuseppe</option><option value="S. Giuseppe di Castello">S. Giuseppe di Castello</option><option value="S. Giuseppe. T indice">S. Giuseppe. T indice</option><option value="S. Giustina">S. Giustina</option><option value="S. Gregorio">S. Gregorio</option><option value="S. Gregorio. Vedi Fruttarol">S. Gregorio. Vedi Fruttarol</option><option value="S. Leonardo">S. Leonardo</option><option value="S. Leonardo. P indice">S. Leonardo. P indice</option><option value="S. Lio">S. Lio</option><option value="S. Luca">S. Luca</option><option value="S. Luca. G indice">S. Luca. G indice</option><option value="S. Luca. Vedi Memmo">S. Luca. Vedi Memmo</option><option value="S. Marco">S. Marco</option><option value="S. Marco. C indice">S. Marco. C indice</option><option value="S. Marcuola">S. Marcuola</option><option value="S. Marcuola. C indice">S. Marcuola. C indice</option><option value="S. Marcuola. Vedi Soranzo">S. Marcuola. Vedi Soranzo</option><option value="S. Maria Formosa">S. Maria Formosa</option><option value="S. Maria Maggiore">S. Maria Maggiore</option><option value="S. Maria Mater Domini">S. Maria Mater Domini</option><option value="S. Maria Nova. B indice">S. Maria Nova. B indice</option><option value="S. Maria Nuova">S. Maria Nuova</option><option value="S. Maria Zobenigo">S. Maria Zobenigo</option><option value="S. Marina">S. Marina</option><option value="S. Marina. M indice">S. Marina. M indice</option><option value="S. Martino">S. Martino</option><option value="S. Marziale">S. Marziale</option><option value="S. Matteo di Rialto">S. Matteo di Rialto</option><option value="S. Mattio">S. Mattio</option><option value="S. Maurizio">S. Maurizio</option><option value="S. Moisè">S. Moisè</option><option value="S. Moisè. Vedi Fabbri">S. Moisè. Vedi Fabbri</option><option value="S. Nicolò">S. Nicolò</option><option value="S. Pantaleone">S. Pantaleone</option><option value="S. Paterniano">S. Paterniano</option><option value="S. Pietro di Castello">S. Pietro di Castello</option><option value="S. Polo">S. Polo</option><option value="S. Provolo">S. Provolo</option><option value="S. Rocco">S. Rocco</option><option value="S. Salvatore">S. Salvatore</option><option value="S. Samuele">S. Samuele</option><option value="S. Sebastiano">S. Sebastiano</option><option value="S. Severo">S. Severo</option><option value="S. Silvestro">S. Silvestro</option><option value="S. Simeon Grande. Vedi Cimitero">S. Simeon Grande. Vedi Cimitero</option><option value="S. Simeon Grande. Vedi Pugliese">S. Simeon Grande. Vedi Pugliese</option><option value="S. Simeon Piccolo. C indice">S. Simeon Piccolo. C indice</option><option value="S. Simeone Profeta">S. Simeone Profeta</option><option value="S. Sofia">S. Sofia</option><option value="S. Stefano">S. Stefano</option><option value="S. Stin. Vedi Donà">S. Stin. Vedi Donà</option><option value="S. Ternita">S. Ternita</option><option value="S. Tomà">S. Tomà</option><option value="S. Vio">S. Vio</option><option value="S. Vito">S. Vito</option><option value="SS. Apostoli">SS. Apostoli</option><option value="SS. Ermagora e Fortunato">SS. Ermagora e Fortunato</option><option value="SS. Ermagora e Fortunato. Vedi Ghetto Vecchio">SS. Ermagora e Fortunato. Vedi Ghetto Vecchio</option><option value="SS. Gervasio e Protasio">SS. Gervasio e Protasio</option><option value="SS. Gervasio e Protasio. Vedi Contarini">SS. Gervasio e Protasio. Vedi Contarini</option><option value="SS. Giovanni e Paolo">SS. Giovanni e Paolo</option><option value="SS. Giovanni e Paolo. G indice">SS. Giovanni e Paolo. G indice</option><option value="SS. Giovanni e Paolo. V indice">SS. Giovanni e Paolo. V indice</option><option value="SS. Giovanni e Paolo. Vedi Botteri">SS. Giovanni e Paolo. Vedi Botteri</option><option value="San Bartolammeo">San Bartolammeo</option><option value="San Canciano">San Canciano</option><option value="San Cassiano">San Cassiano</option><option value="San Eustachio">San Eustachio</option><option value="San Geremia">San Geremia</option><option value="San Giovanni Nuovo">San Giovanni Nuovo</option><option value="San Girolamo">San Girolamo</option><option value="San Marco">San Marco</option><option value="San Martino">San Martino</option><option value="San Marziale">San Marziale</option><option value="San Matteo. Vedi Scura">San Matteo. Vedi Scura</option><option value="San Maurizio">San Maurizio</option><option value="San Moisè">San Moisè</option><option value="San Simeon Grande">San Simeon Grande</option><option value="Sant">Sant</option><option value="Santa Catterina">Santa Catterina</option><option value="Santi Ermagora e Fortunato. Vedi Pegola">Santi Ermagora e Fortunato. Vedi Pegola</option><option value="Santi Filippo e Giacomo">Santi Filippo e Giacomo</option><option value="Servi">Servi</option><option value="Ss. Apostoli. F indice">Ss. Apostoli. F indice</option><option value="Terese">Terese</option><option value="Tolentini">Tolentini</option><option value="Tolentini. Nell">Tolentini. Nell</option></select>
+
+<div id="controls">
+  <select id="sestiereSelect">
+    <option value="ALL">Tutti i sestieri</option>
+<option value="Birri. M indice">Birri. M indice</option><option value="Cannaregio. Vedi Pozzetto">Cannaregio. Vedi Pozzetto</option><option value="Carmini">Carmini</option><option value="Carmini. Vedi Briati">Carmini. Vedi Briati</option><option value="Castello">Castello</option><option value="Celestia">Celestia</option><option value="Fava">Fava</option><option value="Frari">Frari</option><option value="Gesuati">Gesuati</option><option value="Gesuiti">Gesuiti</option><option value="Gesuiti. C indice">Gesuiti. C indice</option><option value="Gesuiti. M indice">Gesuiti. M indice</option><option value="Giudecca">Giudecca</option><option value="Giudecca. Vedi Morto">Giudecca. Vedi Morto</option><option value="Maddalena">Maddalena</option><option value="Maddalena. T indice">Maddalena. T indice</option><option value="Madonna dell">Madonna dell</option><option value="Rialto">Rialto</option><option value="S. Alvise">S. Alvise</option><option value="S. Alvise. Vedi S. Alvise">S. Alvise. Vedi S. Alvise</option><option value="S. Angelo">S. Angelo</option><option value="S. Antonino">S. Antonino</option><option value="S. Apollinare">S. Apollinare</option><option value="S. Aponal. Vedi Tiepolo">S. Aponal. Vedi Tiepolo</option><option value="S. Barnaba">S. Barnaba</option><option value="S. Barnaba. Vedi Girardini">S. Barnaba. Vedi Girardini</option><option value="S. Bartolammeo">S. Bartolammeo</option><option value="S. Bartolomeo. P indice">S. Bartolomeo. P indice</option><option value="S. Basilio">S. Basilio</option><option value="S. Benedetto">S. Benedetto</option><option value="S. Benedetto. Vedi S. Benedetto">S. Benedetto. Vedi S. Benedetto</option><option value="S. Bonaventura">S. Bonaventura</option><option value="S. Canciano">S. Canciano</option><option value="S. Canciano. B indice">S. Canciano. B indice</option><option value="S. Canciano. C indice">S. Canciano. C indice</option><option value="S. Canciano. F indice">S. Canciano. F indice</option><option value="S. Canciano. G indice">S. Canciano. G indice</option><option value="S. Cassiano">S. Cassiano</option><option value="S. Cassiano. Vedi Cristo">S. Cassiano. Vedi Cristo</option><option value="S. Cassiano. Vedi Pin">S. Cassiano. Vedi Pin</option><option value="S. Eustachio">S. Eustachio</option><option value="S. Fantino">S. Fantino</option><option value="S. Felice">S. Felice</option><option value="S. Felice. Vedi Pali">S. Felice. Vedi Pali</option><option value="S. Fosca">S. Fosca</option><option value="S. Fosca. D indice">S. Fosca. D indice</option><option value="S. Fosca. Vedi Daniele Canal">S. Fosca. Vedi Daniele Canal</option><option value="S. Francesco della Vigna">S. Francesco della Vigna</option><option value="S. Francesco della Vigna. Vedi Cappeller">S. Francesco della Vigna. Vedi Cappeller</option><option value="S. Francesco della Vigna. Vedi Pignater">S. Francesco della Vigna. Vedi Pignater</option><option value="S. Francesco della Vigna. Vedi Ponte. D indice">S. Francesco della Vigna. Vedi Ponte. D indice</option><option value="S. Geremia">S. Geremia</option><option value="S. Giacomo dall">S. Giacomo dall</option><option value="S. Gio. Grisostomo. U indice">S. Gio. Grisostomo. U indice</option><option value="S. Giobbe">S. Giobbe</option><option value="S. Giobbe. Vedi Beccherie">S. Giobbe. Vedi Beccherie</option><option value="S. Giobbe. Vedi S. Giobbe">S. Giobbe. Vedi S. Giobbe</option><option value="S. Giovanni Decollato">S. Giovanni Decollato</option><option value="S. Giovanni Evangelista">S. Giovanni Evangelista</option><option value="S. Giovanni Grisostomo">S. Giovanni Grisostomo</option><option value="S. Giovanni Grisostomo. G indice">S. Giovanni Grisostomo. G indice</option><option value="S. Giovanni Novo">S. Giovanni Novo</option><option value="S. Giovanni Nuovo">S. Giovanni Nuovo</option><option value="S. Giovanni in Bragora">S. Giovanni in Bragora</option><option value="S. Girolamo">S. Girolamo</option><option value="S. Giuliano">S. Giuliano</option><option value="S. Giuliano. S indice">S. Giuliano. S indice</option><option value="S. Giuseppe">S. Giuseppe</option><option value="S. Giuseppe di Castello">S. Giuseppe di Castello</option><option value="S. Giuseppe. T indice">S. Giuseppe. T indice</option><option value="S. Giustina">S. Giustina</option><option value="S. Gregorio">S. Gregorio</option><option value="S. Gregorio. Vedi Fruttarol">S. Gregorio. Vedi Fruttarol</option><option value="S. Leonardo">S. Leonardo</option><option value="S. Leonardo. P indice">S. Leonardo. P indice</option><option value="S. Lio">S. Lio</option><option value="S. Luca">S. Luca</option><option value="S. Luca. G indice">S. Luca. G indice</option><option value="S. Luca. Vedi Memmo">S. Luca. Vedi Memmo</option><option value="S. Marco">S. Marco</option><option value="S. Marco. C indice">S. Marco. C indice</option><option value="S. Marcuola">S. Marcuola</option><option value="S. Marcuola. C indice">S. Marcuola. C indice</option><option value="S. Marcuola. Vedi Soranzo">S. Marcuola. Vedi Soranzo</option><option value="S. Maria Formosa">S. Maria Formosa</option><option value="S. Maria Maggiore">S. Maria Maggiore</option><option value="S. Maria Mater Domini">S. Maria Mater Domini</option><option value="S. Maria Nova. B indice">S. Maria Nova. B indice</option><option value="S. Maria Nuova">S. Maria Nuova</option><option value="S. Maria Zobenigo">S. Maria Zobenigo</option><option value="S. Marina">S. Marina</option><option value="S. Marina. M indice">S. Marina. M indice</option><option value="S. Martino">S. Martino</option><option value="S. Marziale">S. Marziale</option><option value="S. Matteo di Rialto">S. Matteo di Rialto</option><option value="S. Mattio">S. Mattio</option><option value="S. Maurizio">S. Maurizio</option><option value="S. Moisè">S. Moisè</option><option value="S. Moisè. Vedi Fabbri">S. Moisè. Vedi Fabbri</option><option value="S. Nicolò">S. Nicolò</option><option value="S. Pantaleone">S. Pantaleone</option><option value="S. Paterniano">S. Paterniano</option><option value="S. Pietro di Castello">S. Pietro di Castello</option><option value="S. Polo">S. Polo</option><option value="S. Provolo">S. Provolo</option><option value="S. Rocco">S. Rocco</option><option value="S. Salvatore">S. Salvatore</option><option value="S. Samuele">S. Samuele</option><option value="S. Sebastiano">S. Sebastiano</option><option value="S. Severo">S. Severo</option><option value="S. Silvestro">S. Silvestro</option><option value="S. Simeon Grande. Vedi Cimitero">S. Simeon Grande. Vedi Cimitero</option><option value="S. Simeon Grande. Vedi Pugliese">S. Simeon Grande. Vedi Pugliese</option><option value="S. Simeon Piccolo. C indice">S. Simeon Piccolo. C indice</option><option value="S. Simeone Profeta">S. Simeone Profeta</option><option value="S. Sofia">S. Sofia</option><option value="S. Stefano">S. Stefano</option><option value="S. Stin. Vedi Donà">S. Stin. Vedi Donà</option><option value="S. Ternita">S. Ternita</option><option value="S. Tomà">S. Tomà</option><option value="S. Vio">S. Vio</option><option value="S. Vito">S. Vito</option><option value="SS. Apostoli">SS. Apostoli</option><option value="SS. Ermagora e Fortunato">SS. Ermagora e Fortunato</option><option value="SS. Ermagora e Fortunato. Vedi Ghetto Vecchio">SS. Ermagora e Fortunato. Vedi Ghetto Vecchio</option><option value="SS. Gervasio e Protasio">SS. Gervasio e Protasio</option><option value="SS. Gervasio e Protasio. Vedi Contarini">SS. Gervasio e Protasio. Vedi Contarini</option><option value="SS. Giovanni e Paolo">SS. Giovanni e Paolo</option><option value="SS. Giovanni e Paolo. G indice">SS. Giovanni e Paolo. G indice</option><option value="SS. Giovanni e Paolo. V indice">SS. Giovanni e Paolo. V indice</option><option value="SS. Giovanni e Paolo. Vedi Botteri">SS. Giovanni e Paolo. Vedi Botteri</option><option value="San Bartolammeo">San Bartolammeo</option><option value="San Canciano">San Canciano</option><option value="San Cassiano">San Cassiano</option><option value="San Eustachio">San Eustachio</option><option value="San Geremia">San Geremia</option><option value="San Giovanni Nuovo">San Giovanni Nuovo</option><option value="San Girolamo">San Girolamo</option><option value="San Marco">San Marco</option><option value="San Martino">San Martino</option><option value="San Marziale">San Marziale</option><option value="San Matteo. Vedi Scura">San Matteo. Vedi Scura</option><option value="San Maurizio">San Maurizio</option><option value="San Moisè">San Moisè</option><option value="San Simeon Grande">San Simeon Grande</option><option value="Sant">Sant</option><option value="Santa Catterina">Santa Catterina</option><option value="Santi Ermagora e Fortunato. Vedi Pegola">Santi Ermagora e Fortunato. Vedi Pegola</option><option value="Santi Filippo e Giacomo">Santi Filippo e Giacomo</option><option value="Servi">Servi</option><option value="Ss. Apostoli. F indice">Ss. Apostoli. F indice</option><option value="Terese">Terese</option><option value="Tolentini">Tolentini</option><option value="Tolentini. Nell">Tolentini. Nell</option>
+  </select><br>
+  <input type="text" id="search" placeholder="Cerca per nome">
 </div>
+
 <div id="map"></div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 var map = L.map('map').setView([45.437, 12.335], 13);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; OpenStreetMap'
@@ -37,6 +49,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var markers = [];
 
 markers.push({
+  nome: "Accademia",
   sestiere: "None",
   layer: L.circleMarker([45.4316293, 12.32868199214668], {
     radius: 1.5,
@@ -48,6 +61,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Alberegno",
   sestiere: "Servi",
   layer: L.circleMarker([44.515581, 11.444224], {
     radius: 1.5,
@@ -59,6 +73,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Algarotti",
   sestiere: "None",
   layer: L.circleMarker([45.440813, 12.339885], {
     radius: 1.5,
@@ -70,6 +85,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Alimante",
   sestiere: "None",
   layer: L.circleMarker([45.446206, 12.323881], {
     radius: 1.5,
@@ -81,6 +97,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Amadi",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -92,6 +109,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Amaltea",
   sestiere: "None",
   layer: L.circleMarker([45.437425, 12.328522], {
     radius: 1.5,
@@ -103,6 +121,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ambassador",
   sestiere: "None",
   layer: L.circleMarker([45.43459, 12.33788], {
     radius: 1.5,
@@ -114,6 +133,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ancore",
   sestiere: "S. Marco",
   layer: L.circleMarker([40.821563, 15.3199], {
     radius: 1.5,
@@ -125,6 +145,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Angelo",
   sestiere: "S. Martino",
   layer: L.circleMarker([45.592066, 12.508526], {
     radius: 1.5,
@@ -136,6 +157,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Angelo",
   sestiere: "Castello",
   layer: L.circleMarker([45.4861, 12.41848], {
     radius: 1.5,
@@ -147,6 +169,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Angelo",
   sestiere: "Rialto",
   layer: L.circleMarker([44.2258176, 8.2631084], {
     radius: 1.5,
@@ -158,6 +181,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Angelo Emo",
   sestiere: "None",
   layer: L.circleMarker([45.4351, 12.33955], {
     radius: 1.5,
@@ -169,6 +193,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Anguria",
   sestiere: "S. Cassiano",
   layer: L.circleMarker([44.28868, 9.56669], {
     radius: 1.5,
@@ -180,6 +205,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Antonio Foscarini",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -191,6 +217,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Aquila nera",
   sestiere: "S. Bartolammeo",
   layer: L.circleMarker([45.628664, 9.987074], {
     radius: 1.5,
@@ -202,6 +229,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Arco",
   sestiere: "S. Antonino",
   layer: L.circleMarker([43.786261, 11.262609], {
     radius: 1.5,
@@ -213,6 +241,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Arco celeste",
   sestiere: "None",
   layer: L.circleMarker([45.44606944438299, 12.3321915747552], {
     radius: 1.5,
@@ -224,6 +253,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Arrigoni",
   sestiere: "S. Alvise",
   layer: L.circleMarker([45.55069, 12.342961], {
     radius: 1.5,
@@ -235,6 +265,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Arzere",
   sestiere: "Terese",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -246,6 +277,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Avogarìa",
   sestiere: "S. Barnaba",
   layer: L.circleMarker([45.43285, 12.32251], {
     radius: 1.5,
@@ -257,6 +289,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Baccalà",
   sestiere: "S. Gregorio",
   layer: L.circleMarker([45.427756, 12.363319], {
     radius: 1.5,
@@ -268,6 +301,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bagatìn",
   sestiere: "S. Canciano",
   layer: L.circleMarker([45.439744, 12.337768], {
     radius: 1.5,
@@ -279,6 +313,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Baglioni",
   sestiere: "None",
   layer: L.circleMarker([45.43929215, 12.33164638112813], {
     radius: 1.5,
@@ -290,6 +325,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Baiamonte Tiepolo",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -301,6 +337,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Balà",
   sestiere: "None",
   layer: L.circleMarker([45.429634, 12.332796], {
     radius: 1.5,
@@ -312,6 +349,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Balbi",
   sestiere: "S. Marcuola",
   layer: L.circleMarker([45.44244845, 12.3288344106717], {
     radius: 1.5,
@@ -323,6 +361,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Balbi dai colori",
   sestiere: "S. Marcuola",
   layer: L.circleMarker([45.44328189491575, 12.32944606356751], {
     radius: 1.5,
@@ -334,6 +373,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Balbi o Morosini",
   sestiere: "S. Benedetto",
   layer: L.circleMarker([46.065002, 8.256235], {
     radius: 1.5,
@@ -345,6 +385,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Balloni",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.14512, 12.065363], {
     radius: 1.5,
@@ -356,6 +397,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Banco Salviati",
   sestiere: "None",
   layer: L.circleMarker([45.4415452, 12.3227492], {
     radius: 1.5,
@@ -367,6 +409,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bandi",
   sestiere: "S. Canciano. B indice",
   layer: L.circleMarker([45.426902, 12.36758], {
     radius: 1.5,
@@ -378,6 +421,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bao",
   sestiere: "S. Angelo",
   layer: L.circleMarker([43.9116198, 12.9210527], {
     radius: 1.5,
@@ -389,6 +433,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Barbaria delle tole.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -400,6 +445,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Basadonna",
   sestiere: "None",
   layer: L.circleMarker([45.485519, 12.421], {
     radius: 1.5,
@@ -411,6 +457,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Basegò",
   sestiere: "None",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -422,6 +469,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bassa",
   sestiere: "Castello",
   layer: L.circleMarker([45.438919, 12.325928], {
     radius: 1.5,
@@ -433,6 +481,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Battello",
   sestiere: "San Girolamo",
   layer: L.circleMarker([43.168905, 13.711289], {
     radius: 1.5,
@@ -444,6 +493,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Beccarie",
   sestiere: "S. Giobbe. Vedi Beccherie",
   layer: L.circleMarker([45.44498165, 12.32040235446429], {
     radius: 1.5,
@@ -455,6 +505,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bella",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.4410409, 12.3406382], {
     radius: 1.5,
@@ -466,6 +517,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bella Vienna",
   sestiere: "Rialto",
   layer: L.circleMarker([44.057797, 12.591988], {
     radius: 1.5,
@@ -477,6 +529,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bianca Cappello",
   sestiere: "None",
   layer: L.circleMarker([45.43802, 12.332057], {
     radius: 1.5,
@@ -488,6 +541,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bianchi",
   sestiere: "S. Apollinare",
   layer: L.circleMarker([45.563208, 12.275824], {
     radius: 1.5,
@@ -499,6 +553,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bisati",
   sestiere: "Gesuati",
   layer: L.circleMarker([43.956334, 11.356741], {
     radius: 1.5,
@@ -510,6 +565,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Biscotella",
   sestiere: "S. Giobbe",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -521,6 +577,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bocca de Piazza.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -532,6 +589,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bògnolo",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -543,6 +601,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Boldù",
   sestiere: "S. Pantaleone",
   layer: L.circleMarker([45.439681, 12.338305], {
     radius: 1.5,
@@ -554,6 +613,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Boldù )",
   sestiere: "S. Maria Nova. B indice",
   layer: L.circleMarker([45.4398485, 12.34540113561807], {
     radius: 1.5,
@@ -565,6 +625,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bonlini",
   sestiere: "SS. Gervasio e Protasio",
   layer: L.circleMarker([45.503934, 12.276675], {
     radius: 1.5,
@@ -576,6 +637,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Borella",
   sestiere: "SS. Giovanni e Paolo",
   layer: L.circleMarker([45.443879, 12.328033], {
     radius: 1.5,
@@ -587,6 +649,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Botteghe",
   sestiere: "S. Samuele",
   layer: L.circleMarker([45.4341995, 12.329426157], {
     radius: 1.5,
@@ -598,6 +661,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Botter",
   sestiere: "S. Giustina",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -609,6 +673,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bottera",
   sestiere: "SS. Giovanni e Paolo. Vedi Botteri",
   layer: L.circleMarker([45.439, 12.344], {
     radius: 1.5,
@@ -620,6 +685,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bottonera",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -631,6 +697,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Bragadin o Carabba",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -642,6 +709,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Brato",
   sestiere: "S. Simeone Profeta",
   layer: L.circleMarker([45.463379, 12.526507], {
     radius: 1.5,
@@ -653,6 +721,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Brazzo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -664,6 +733,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Brentana",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.43093343, 12.328946885], {
     radius: 1.5,
@@ -675,6 +745,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Brusà",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -686,6 +757,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Buranelli",
   sestiere: "None",
   layer: L.circleMarker([46.131542, 9.349748], {
     radius: 1.5,
@@ -697,6 +769,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Balà",
   sestiere: "None",
   layer: L.circleMarker([45.44088, 12.33385226413611], {
     radius: 1.5,
@@ -708,6 +781,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Gritti.",
   sestiere: "None",
   layer: L.circleMarker([45.434648, 12.348106], {
     radius: 1.5,
@@ -719,6 +793,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Lipoli",
   sestiere: "None",
   layer: L.circleMarker([45.436183, 12.326258], {
     radius: 1.5,
@@ -730,6 +805,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Matta",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([45.408607304, 11.872589049], {
     radius: 1.5,
@@ -741,6 +817,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Memo",
   sestiere: "S. Marcuola. C indice",
   layer: L.circleMarker([45.4429294, 12.32868515281864], {
     radius: 1.5,
@@ -752,6 +829,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Pozzo.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -763,6 +841,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ca’ Rampani.",
   sestiere: "None",
   layer: L.circleMarker([45.43354125, 12.3268050866914], {
     radius: 1.5,
@@ -774,6 +853,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cadena",
   sestiere: "Gesuiti. C indice",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -785,6 +865,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cadonici",
   sestiere: "None",
   layer: L.circleMarker([45.437247, 12.340276], {
     radius: 1.5,
@@ -796,6 +877,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cagnoletto",
   sestiere: "S. Giovanni in Bragora",
   layer: L.circleMarker([42.28325, 12.05148], {
     radius: 1.5,
@@ -807,6 +889,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Calderer",
   sestiere: "S. Marziale",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -818,6 +901,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Calegheri",
   sestiere: "None",
   layer: L.circleMarker([45.43618585, 12.32705195], {
     radius: 1.5,
@@ -829,6 +913,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Calergi",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -840,6 +925,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Calle",
   sestiere: "None",
   layer: L.circleMarker([45.440033, 12.332397], {
     radius: 1.5,
@@ -851,6 +937,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Callesella",
   sestiere: "None",
   layer: L.circleMarker([45.430189, 12.332143], {
     radius: 1.5,
@@ -862,6 +949,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Camerale",
   sestiere: "Rialto",
   layer: L.circleMarker([44.2258176, 8.2631084], {
     radius: 1.5,
@@ -873,6 +961,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Camerini",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([45.42048, 12.375628], {
     radius: 1.5,
@@ -884,6 +973,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campanati",
   sestiere: "Castello",
   layer: L.circleMarker([45.4346809, 12.35091521889801], {
     radius: 1.5,
@@ -895,6 +985,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campaniel",
   sestiere: "None",
   layer: L.circleMarker([45.440089, 12.338896], {
     radius: 1.5,
@@ -906,6 +997,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campanile",
   sestiere: "S. Mattio",
   layer: L.circleMarker([45.43773, 12.34191], {
     radius: 1.5,
@@ -917,6 +1009,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campanile detta dei Preti",
   sestiere: "None",
   layer: L.circleMarker([45.441648, 12.327978], {
     radius: 1.5,
@@ -928,6 +1021,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campazzo",
   sestiere: "None",
   layer: L.circleMarker([40.2957109, 15.493093], {
     radius: 1.5,
@@ -939,6 +1033,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Campo di Marte.",
   sestiere: "None",
   layer: L.circleMarker([45.437679, 12.33681080438629], {
     radius: 1.5,
@@ -950,6 +1045,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canal",
   sestiere: "S. Fosca. Vedi Daniele Canal",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -961,6 +1057,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canal Morto",
   sestiere: "Giudecca. Vedi Morto",
   layer: L.circleMarker([45.4268598, 12.3256422], {
     radius: 1.5,
@@ -972,6 +1069,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canalazzo",
   sestiere: "None",
   layer: L.circleMarker([45.43777295172513, 12.33559040897024], {
     radius: 1.5,
@@ -983,6 +1081,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canale",
   sestiere: "None",
   layer: L.circleMarker([45.42782483984927, 12.31804391807382], {
     radius: 1.5,
@@ -994,6 +1093,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Candele",
   sestiere: "Gesuiti",
   layer: L.circleMarker([45.442955, 10.994935], {
     radius: 1.5,
@@ -1005,6 +1105,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canonica",
   sestiere: "S. Girolamo",
   layer: L.circleMarker([43.647655, 12.337255], {
     radius: 1.5,
@@ -1016,6 +1117,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Canossiane",
   sestiere: "S. Alvise. Vedi S. Alvise",
   layer: L.circleMarker([45.4345, 12.33326], {
     radius: 1.5,
@@ -1027,6 +1129,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Capara",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([44.074198, 9.910297], {
     radius: 1.5,
@@ -1038,6 +1141,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cappellan",
   sestiere: "S. Giustina",
   layer: L.circleMarker([45.628642, 9.986953], {
     radius: 1.5,
@@ -1049,6 +1153,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cappellera",
   sestiere: "S. Francesco della Vigna. Vedi Cappeller",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1060,6 +1165,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cappuccine",
   sestiere: "S. Girolamo",
   layer: L.circleMarker([45.44658411701575, 12.32360706041955], {
     radius: 1.5,
@@ -1071,6 +1177,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Capuzzi",
   sestiere: "S. Vito",
   layer: L.circleMarker([41.7916, 12.613583], {
     radius: 1.5,
@@ -1082,6 +1189,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Carabba",
   sestiere: "S. Marina",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -1093,6 +1201,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cariole",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.463379, 12.526507], {
     radius: 1.5,
@@ -1104,6 +1213,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Carlo Coletti",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1115,6 +1225,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Carminati",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -1126,6 +1237,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Carnace",
   sestiere: "S. Alvise",
   layer: L.circleMarker([45.431524, 12.324765], {
     radius: 1.5,
@@ -1137,6 +1249,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Case Nuove detta Boldù",
   sestiere: "None",
   layer: L.circleMarker([45.44298945, 12.33110721102099], {
     radius: 1.5,
@@ -1148,6 +1261,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Castagna",
   sestiere: "S. Giovanni Nuovo",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -1159,6 +1273,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Catene",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1170,6 +1285,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Caustico",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1181,6 +1297,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cavagnis",
   sestiere: "None",
   layer: L.circleMarker([45.437777, 12.342608], {
     radius: 1.5,
@@ -1192,6 +1309,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cavanella",
   sestiere: "S. Giovanni Nuovo",
   layer: L.circleMarker([40.67697, 16.07813], {
     radius: 1.5,
@@ -1203,6 +1321,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cazziola",
   sestiere: "S. Maria Maggiore",
   layer: L.circleMarker([46.1349546, 8.4672779], {
     radius: 1.5,
@@ -1214,6 +1333,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cento Pietre",
   sestiere: "SS. Gervasio e Protasio",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -1225,6 +1345,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cereria",
   sestiere: "S. Giobbe",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -1236,6 +1357,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ceresa",
   sestiere: "S. Leonardo",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1247,6 +1369,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cesare Battisti",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1258,6 +1381,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Chiara",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -1269,6 +1393,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Chiesa",
   sestiere: "San Giovanni Nuovo",
   layer: L.circleMarker([45.6541717, 9.2227382], {
     radius: 1.5,
@@ -1280,6 +1405,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Chioverette",
   sestiere: "None",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -1291,6 +1417,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Chiuso",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -1302,6 +1429,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cicogna Emmanuele",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1313,6 +1441,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cimesin",
   sestiere: "S. Rocco",
   layer: L.circleMarker([45.437462, 12.32348], {
     radius: 1.5,
@@ -1324,6 +1453,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Codognola",
   sestiere: "S. Simeon Piccolo. C indice",
   layer: L.circleMarker([45.4403019, 12.32241223287671], {
     radius: 1.5,
@@ -1335,6 +1465,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Coletti",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1346,6 +1477,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Colomba",
   sestiere: "Castello",
   layer: L.circleMarker([46.08961, 9.12856], {
     radius: 1.5,
@@ -1357,6 +1489,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Colonna",
   sestiere: "SS. Ermagora e Fortunato",
   layer: L.circleMarker([45.4511204, 12.34921121386559], {
     radius: 1.5,
@@ -1368,6 +1501,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Colonne",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.13846, 9.14599], {
     radius: 1.5,
@@ -1379,6 +1513,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Colonnella",
   sestiere: "None",
   layer: L.circleMarker([45.98397, 13.473177], {
     radius: 1.5,
@@ -1390,6 +1525,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Colonnette",
   sestiere: "Maddalena",
   layer: L.circleMarker([45.44313405, 12.33103539752566], {
     radius: 1.5,
@@ -1401,6 +1537,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Comello",
   sestiere: "S. Canciano. C indice",
   layer: L.circleMarker([45.44040879772144, 12.33872675797688], {
     radius: 1.5,
@@ -1412,6 +1549,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Condulmer",
   sestiere: "None",
   layer: L.circleMarker([45.5776574, 12.26608024202848], {
     radius: 1.5,
@@ -1423,6 +1561,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Confraternita",
   sestiere: "S. Francesco della Vigna",
   layer: L.circleMarker([46.726736, 12.176916], {
     radius: 1.5,
@@ -1434,6 +1573,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Consorti",
   sestiere: "Gesuiti",
   layer: L.circleMarker([41.446681, 12.92439], {
     radius: 1.5,
@@ -1445,6 +1585,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Consorzi",
   sestiere: "S. Marco. C indice",
   layer: L.circleMarker([45.43375020000001, 12.33960014552528], {
     radius: 1.5,
@@ -1456,6 +1597,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Contarini",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1467,6 +1609,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Contarini del Bovolo",
   sestiere: "None",
   layer: L.circleMarker([45.43484745, 12.33421495893396], {
     radius: 1.5,
@@ -1478,6 +1621,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Conterie",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1489,6 +1633,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corali",
   sestiere: "None",
   layer: L.circleMarker([45.437865, 12.331954], {
     radius: 1.5,
@@ -1500,6 +1645,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Coralli e Bollani",
   sestiere: "S. Apollinare",
   layer: L.circleMarker([45.398247, 12.360711], {
     radius: 1.5,
@@ -1511,6 +1657,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cordellina",
   sestiere: "Servi",
   layer: L.circleMarker([40.8617688, 14.25992972793528], {
     radius: 1.5,
@@ -1522,6 +1669,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cordoni",
   sestiere: "S. Canciano",
   layer: L.circleMarker([45.431317, 12.35631], {
     radius: 1.5,
@@ -1533,6 +1681,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corelie",
   sestiere: "S. Girolamo",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -1544,6 +1693,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corfù",
   sestiere: "SS. Gervasio e Protasio. Vedi Contarini",
   layer: L.circleMarker([45.4319757, 12.32759666894175], {
     radius: 1.5,
@@ -1555,6 +1705,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corfù",
   sestiere: "S. Tomà",
   layer: L.circleMarker([45.4966756, 9.6447609], {
     radius: 1.5,
@@ -1566,6 +1717,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corner o del Magazen",
   sestiere: "None",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -1577,6 +1729,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corner Flaminio",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1588,6 +1741,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Corona",
   sestiere: "S. Giovanni Nuovo",
   layer: L.circleMarker([45.457824, 12.354148], {
     radius: 1.5,
@@ -1599,6 +1753,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Correr",
   sestiere: "S. Marcuola. Vedi Soranzo",
   layer: L.circleMarker([45.4424277, 12.3288131], {
     radius: 1.5,
@@ -1610,6 +1765,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Crea",
   sestiere: "None",
   layer: L.circleMarker([45.445247, 12.321177], {
     radius: 1.5,
@@ -1621,6 +1777,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cremonese",
   sestiere: "S. Maria Maggiore",
   layer: L.circleMarker([45.693056, 9.901719], {
     radius: 1.5,
@@ -1632,6 +1789,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cristi",
   sestiere: "S. Cassiano. Vedi Cristo",
   layer: L.circleMarker([45.43942651952523, 12.33240342408557], {
     radius: 1.5,
@@ -1643,6 +1801,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cristo",
   sestiere: "S. Sofia",
   layer: L.circleMarker([45.54066445, 10.22791939727314], {
     radius: 1.5,
@@ -1654,6 +1813,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cristo",
   sestiere: "S. Cassiano",
   layer: L.circleMarker([45.439426, 12.332404], {
     radius: 1.5,
@@ -1665,6 +1825,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Croce",
   sestiere: "San Simeon Grande",
   layer: L.circleMarker([45.4410916, 12.32410927459596], {
     radius: 1.5,
@@ -1676,6 +1837,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Crociferi",
   sestiere: "Gesuiti. C indice",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -1687,6 +1849,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Crosera",
   sestiere: "S. Samuele",
   layer: L.circleMarker([45.4341995, 12.329426157], {
     radius: 1.5,
@@ -1698,6 +1861,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Da Mezzo",
   sestiere: "None",
   layer: L.circleMarker([46.2953345, 12.2366457], {
     radius: 1.5,
@@ -1709,6 +1873,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Da Mosto",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1720,6 +1885,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Da Ponte",
   sestiere: "S. Francesco della Vigna. Vedi Ponte. D indice",
   layer: L.circleMarker([45.43822355, 12.34787811859605], {
     radius: 1.5,
@@ -1731,6 +1897,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dalla Bolza",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1742,6 +1909,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dalla Frescada",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1753,6 +1921,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Daniele Canal",
   sestiere: "S. Fosca. D indice",
   layer: L.circleMarker([45.4429348, 12.33221781925308], {
     radius: 1.5,
@@ -1764,6 +1933,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Daniele Manin",
   sestiere: "S. Paterniano",
   layer: L.circleMarker([45.4336006, 12.3382833], {
     radius: 1.5,
@@ -1775,6 +1945,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "De Cadonici",
   sestiere: "S. Maria Formosa",
   layer: L.circleMarker([45.43703285, 12.34103577045167], {
     radius: 1.5,
@@ -1786,6 +1957,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Do Pozzi Due Pozzi",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1797,6 +1969,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dolena atorno il Brusà",
   sestiere: "S. Apollinare",
   layer: L.circleMarker([45.446069, 12.332192], {
     radius: 1.5,
@@ -1808,6 +1981,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dose",
   sestiere: "S. Maurizio",
   layer: L.circleMarker([44.2886823, 9.5667688], {
     radius: 1.5,
@@ -1819,6 +1993,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Due Capitelli",
   sestiere: "Sant",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -1830,6 +2005,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Due Porte",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1841,6 +2017,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dario",
   sestiere: "None",
   layer: L.circleMarker([45.195322, 10.972153], {
     radius: 1.5,
@@ -1852,6 +2029,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Diamanter",
   sestiere: "S. Fosca",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -1863,6 +2041,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dorsoduro",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1874,6 +2053,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Dòaneta",
   sestiere: "Frari",
   layer: L.circleMarker([41.919221, 13.603027], {
     radius: 1.5,
@@ -1885,6 +2065,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Drasi",
   sestiere: "None",
   layer: L.circleMarker([45.436669, 12.348004], {
     radius: 1.5,
@@ -1896,6 +2077,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "E",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1907,6 +2089,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Emmanuele Cicogna",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -1918,6 +2101,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Èrizzo o delle Belle Donne",
   sestiere: "S. Francesco della Vigna",
   layer: L.circleMarker([45.436181, 12.33809], {
     radius: 1.5,
@@ -1929,6 +2113,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Erberia",
   sestiere: "Rialto",
   layer: L.circleMarker([46.0664636, 13.2334417], {
     radius: 1.5,
@@ -1940,6 +2125,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fabbro o della Malvasia",
   sestiere: "None",
   layer: L.circleMarker([45.4558248, 12.3868834], {
     radius: 1.5,
@@ -1951,6 +2137,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Falier",
   sestiere: "Ss. Apostoli. F indice",
   layer: L.circleMarker([45.43244654999999, 12.32832816216592], {
     radius: 1.5,
@@ -1962,6 +2149,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fenice",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -1973,6 +2161,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Flaminio Corner",
   sestiere: "S. Canciano. F indice",
   layer: L.circleMarker([45.4396588, 12.33713538085937], {
     radius: 1.5,
@@ -1984,6 +2173,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fondamente nove",
   sestiere: "None",
   layer: L.circleMarker([45.4439633, 12.3391554], {
     radius: 1.5,
@@ -1995,6 +2185,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Forner",
   sestiere: "S. Fosca",
   layer: L.circleMarker([45.44272307211789, 12.33221739127447], {
     radius: 1.5,
@@ -2006,6 +2197,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Forno o del Teatro",
   sestiere: "None",
   layer: L.circleMarker([45.436067, 12.335041], {
     radius: 1.5,
@@ -2017,6 +2209,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Foscarini",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2028,6 +2221,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Foscarini Marco",
   sestiere: "None",
   layer: L.circleMarker([45.443786, 12.337849], {
     radius: 1.5,
@@ -2039,6 +2233,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Foscolo Ugo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2050,6 +2245,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fossa Capara.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2061,6 +2257,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Frati",
   sestiere: "S. Sebastiano",
   layer: L.circleMarker([45.488027, 12.304892], {
     radius: 1.5,
@@ -2072,6 +2269,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Frati",
   sestiere: "Gesuati",
   layer: L.circleMarker([45.4295359, 12.32727673221563], {
     radius: 1.5,
@@ -2083,6 +2281,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Frati",
   sestiere: "Giudecca",
   layer: L.circleMarker([45.663091, 9.782914], {
     radius: 1.5,
@@ -2094,6 +2293,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fabbriche",
   sestiere: "Rialto",
   layer: L.circleMarker([44.2258176, 8.2631084], {
     radius: 1.5,
@@ -2105,6 +2305,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fanese",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2116,6 +2317,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Faraon",
   sestiere: "None",
   layer: L.circleMarker([45.831422, 7.722934], {
     radius: 1.5,
@@ -2127,6 +2329,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Feraù",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2138,6 +2341,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fica",
   sestiere: "Castello",
   layer: L.circleMarker([46.08961, 9.12856], {
     radius: 1.5,
@@ -2149,6 +2353,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Figaretto",
   sestiere: "S. Pietro di Castello",
   layer: L.circleMarker([45.43387855, 12.35994782328767], {
     radius: 1.5,
@@ -2160,6 +2365,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Figher",
   sestiere: "San Giovanni Nuovo",
   layer: L.circleMarker([44.928835, 12.110261], {
     radius: 1.5,
@@ -2171,6 +2377,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "FigherettoFigaretto",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -2182,6 +2389,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Finetta",
   sestiere: "S. Sofia",
   layer: L.circleMarker([41.70551, 15.731393], {
     radius: 1.5,
@@ -2193,6 +2401,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fiorenzuola",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2204,6 +2413,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fiubera",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -2215,6 +2425,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fondamenta",
   sestiere: "None",
   layer: L.circleMarker([45.8908228, 11.9209554], {
     radius: 1.5,
@@ -2226,6 +2437,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Foscara",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -2237,6 +2449,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Franceschi",
   sestiere: "None",
   layer: L.circleMarker([45.426079, 12.327841], {
     radius: 1.5,
@@ -2248,6 +2461,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Fumo",
   sestiere: "None",
   layer: L.circleMarker([43.5233018, 12.3398334], {
     radius: 1.5,
@@ -2259,6 +2473,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gasparo Contarini",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2270,6 +2485,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ghetto Novissimo",
   sestiere: "SS. Ermagora e Fortunato. Vedi Ghetto Vecchio",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2281,6 +2497,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ghetto Nuovo",
   sestiere: "S. Girolamo",
   layer: L.circleMarker([45.44658411701575, 12.32360706041955], {
     radius: 1.5,
@@ -2292,6 +2509,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Giacinto Gallina",
   sestiere: "SS. Giovanni e Paolo. G indice",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2303,6 +2521,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Giardini Pubblici",
   sestiere: "None",
   layer: L.circleMarker([45.42953, 12.35645], {
     radius: 1.5,
@@ -2314,6 +2533,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gradenigo detti Chioverette",
   sestiere: "None",
   layer: L.circleMarker([45.44096, 12.343628], {
     radius: 1.5,
@@ -2325,6 +2545,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Grande",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2336,6 +2557,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gustavo Modena",
   sestiere: "S. Giovanni Grisostomo. G indice",
   layer: L.circleMarker([45.43915665, 12.33726116981328], {
     radius: 1.5,
@@ -2347,6 +2569,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Galeazza",
   sestiere: "Rialto",
   layer: L.circleMarker([44.2258176, 8.2631084], {
     radius: 1.5,
@@ -2358,6 +2581,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Galizzi",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2369,6 +2593,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gallicciolli",
   sestiere: "None",
   layer: L.circleMarker([45.490108, 12.241632], {
     radius: 1.5,
@@ -2380,6 +2605,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gallina",
   sestiere: "None",
   layer: L.circleMarker([45.440016, 12.340203], {
     radius: 1.5,
@@ -2391,6 +2617,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Galliòn",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.440671, 12.325501], {
     radius: 1.5,
@@ -2402,6 +2629,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gallipoli",
   sestiere: "Frari",
   layer: L.circleMarker([46.065002, 8.256235], {
     radius: 1.5,
@@ -2413,6 +2641,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gallo",
   sestiere: "None",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -2424,6 +2653,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Garzotti",
   sestiere: "None",
   layer: L.circleMarker([45.439743, 12.3248893], {
     radius: 1.5,
@@ -2435,6 +2665,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Trevisana",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2446,6 +2677,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gesuati",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2457,6 +2689,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gheltof",
   sestiere: "None",
   layer: L.circleMarker([45.4350525, 12.32912161988492], {
     radius: 1.5,
@@ -2468,6 +2701,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gherardi",
   sestiere: "S. Canciano. G indice",
   layer: L.circleMarker([45.43980565, 12.33789777960373], {
     radius: 1.5,
@@ -2479,6 +2713,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gherardini",
   sestiere: "S. Barnaba. Vedi Girardini",
   layer: L.circleMarker([45.4330713, 12.32497890210291], {
     radius: 1.5,
@@ -2490,6 +2725,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ghiaccio",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2501,6 +2737,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Giazzo",
   sestiere: "S. Lio",
   layer: L.circleMarker([45.418137, 11.551838], {
     radius: 1.5,
@@ -2512,6 +2749,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gioachina",
   sestiere: "S. Geremia",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2523,6 +2761,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gobbi",
   sestiere: "S. Maurizio",
   layer: L.circleMarker([45.437198, 12.346389], {
     radius: 1.5,
@@ -2534,6 +2773,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Goldoni",
   sestiere: "S. Luca. G indice",
   layer: L.circleMarker([45.43576155, 12.33379283982306], {
     radius: 1.5,
@@ -2545,6 +2785,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gorna",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2556,6 +2797,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gradisca",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.4187337, 12.1504763], {
     radius: 1.5,
@@ -2567,6 +2809,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Greca",
   sestiere: "San Moisè",
   layer: L.circleMarker([45.46021645, 12.17545800278901], {
     radius: 1.5,
@@ -2578,6 +2821,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Gregolin",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2589,6 +2833,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Grifalconi",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -2600,6 +2845,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Grimani",
   sestiere: "S. Luca",
   layer: L.circleMarker([38.148371, 16.0660454], {
     radius: 1.5,
@@ -2611,6 +2857,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Grue",
   sestiere: "S. Maria Mater Domini",
   layer: L.circleMarker([45.440116, 12.329644], {
     radius: 1.5,
@@ -2622,6 +2869,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Guardiani",
   sestiere: "None",
   layer: L.circleMarker([45.309689, 12.312081], {
     radius: 1.5,
@@ -2633,6 +2881,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Guglie",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2644,6 +2893,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Isola",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([43.46092, 12.241243], {
     radius: 1.5,
@@ -2655,6 +2905,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lista di Spagna.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2666,6 +2917,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lista vecchia dei bari.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -2677,6 +2929,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Loredan",
   sestiere: "S. Luca. Vedi Memmo",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2688,6 +2941,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Luca Zanco",
   sestiere: "Giudecca",
   layer: L.circleMarker([45.361509, 10.222826], {
     radius: 1.5,
@@ -2699,6 +2953,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Luganegher o del Traghetto",
   sestiere: "None",
   layer: L.circleMarker([45.441863, 12.340734], {
     radius: 1.5,
@@ -2710,6 +2965,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Luganegher o della Malvasia",
   sestiere: "None",
   layer: L.circleMarker([45.759816, 10.745578], {
     radius: 1.5,
@@ -2721,6 +2977,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lacca",
   sestiere: "S. Giovanni Evangelista",
   layer: L.circleMarker([45.6471953, 13.7639138], {
     radius: 1.5,
@@ -2732,6 +2989,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lanza",
   sestiere: "S. Gregorio. Vedi Fruttarol",
   layer: L.circleMarker([45.430391, 12.33316], {
     radius: 1.5,
@@ -2743,6 +3001,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lanzoni",
   sestiere: "SS. Giovanni e Paolo",
   layer: L.circleMarker([45.439964, 12.34077], {
     radius: 1.5,
@@ -2754,6 +3013,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Larga",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.38908, 10.803386], {
     radius: 1.5,
@@ -2765,6 +3025,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lavadori",
   sestiere: "Tolentini",
   layer: L.circleMarker([45.4369584, 12.33829984736842], {
     radius: 1.5,
@@ -2776,6 +3037,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lavaro",
   sestiere: "None",
   layer: L.circleMarker([45.429569, 12.330621], {
     radius: 1.5,
@@ -2787,6 +3049,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lavezzara",
   sestiere: "S. Luca",
   layer: L.circleMarker([38.148371, 16.0660454], {
     radius: 1.5,
@@ -2798,6 +3061,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Legnami",
   sestiere: "Gesuiti",
   layer: L.circleMarker([45.443694, 12.338315], {
     radius: 1.5,
@@ -2809,6 +3073,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Leoni",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.43482885, 12.33402474040622], {
     radius: 1.5,
@@ -2820,6 +3085,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Licini",
   sestiere: "Fava",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -2831,6 +3097,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lipoli",
   sestiere: "None",
   layer: L.circleMarker([45.436183, 12.326258], {
     radius: 1.5,
@@ -2842,6 +3109,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Lovisella",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.43318275, 12.33529517981136], {
     radius: 1.5,
@@ -2853,6 +3121,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Maddalena",
   sestiere: "None",
   layer: L.circleMarker([45.693056, 9.901719], {
     radius: 1.5,
@@ -2864,6 +3133,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Madonna",
   sestiere: "S. Angelo",
   layer: L.circleMarker([45.444533, 12.329208], {
     radius: 1.5,
@@ -2875,6 +3145,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Malvasia o Fiubera",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2886,6 +3157,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Marco Foscarini",
   sestiere: "Gesuiti. M indice",
   layer: L.circleMarker([45.437611, 12.31683], {
     radius: 1.5,
@@ -2897,6 +3169,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Martin Novello",
   sestiere: "S. Giuseppe di Castello",
   layer: L.circleMarker([45.431288, 12.358557], {
     radius: 1.5,
@@ -2908,6 +3181,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Martinengo dalle Palle",
   sestiere: "S. Marina. M indice",
   layer: L.circleMarker([45.4384268, 12.3393228], {
     radius: 1.5,
@@ -2919,6 +3193,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mercanti",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -2930,6 +3205,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mezzo",
   sestiere: "S. Apollinare",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -2941,6 +3217,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Misericordia",
   sestiere: "San Geremia",
   layer: L.circleMarker([45.44302675, 12.3344627865577], {
     radius: 1.5,
@@ -2952,6 +3229,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Modena Gustavo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2963,6 +3241,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morosina de la Regina",
   sestiere: "None",
   layer: L.circleMarker([45.439041, 12.337299], {
     radius: 1.5,
@@ -2974,6 +3253,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morosini Francesco",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -2985,6 +3265,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe",
   sestiere: "S. Alvise",
   layer: L.circleMarker([45.431587, 12.355989], {
     radius: 1.5,
@@ -2996,6 +3277,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe",
   sestiere: "Celestia",
   layer: L.circleMarker([45.43803016026121, 12.34973984792893], {
     radius: 1.5,
@@ -3007,6 +3289,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe",
   sestiere: "S. Marina",
   layer: L.circleMarker([44.615294, 11.419468], {
     radius: 1.5,
@@ -3018,6 +3301,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe  Muneghe",
   sestiere: "San Maurizio",
   layer: L.circleMarker([45.4345955, 12.3466546899941], {
     radius: 1.5,
@@ -3029,6 +3313,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe",
   sestiere: "S. Ternita",
   layer: L.circleMarker([45.4372748, 12.34880971113297], {
     radius: 1.5,
@@ -3040,6 +3325,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghe",
   sestiere: "S. Benedetto",
   layer: L.circleMarker([46.6512, 11.915867], {
     radius: 1.5,
@@ -3051,6 +3337,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Muneghette",
   sestiere: "San Martino",
   layer: L.circleMarker([44.42329, 11.17365], {
     radius: 1.5,
@@ -3062,6 +3349,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Maggioni",
   sestiere: "S. Maria Nuova",
   layer: L.circleMarker([39.3845867, 9.178561], {
     radius: 1.5,
@@ -3073,6 +3361,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Maggiore",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([45.831422, 7.722934], {
     radius: 1.5,
@@ -3084,6 +3373,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Malibran",
   sestiere: "None",
   layer: L.circleMarker([45.43903, 12.33786], {
     radius: 1.5,
@@ -3095,6 +3385,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mandolèr",
   sestiere: "S. Tomà",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -3106,6 +3397,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mandolìn",
   sestiere: "S. Martino",
   layer: L.circleMarker([45.29241, 12.30764], {
     radius: 1.5,
@@ -3117,6 +3409,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mariani",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3128,6 +3421,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Marina",
   sestiere: "S. Giuseppe",
   layer: L.circleMarker([45.4384268, 12.3393228], {
     radius: 1.5,
@@ -3139,6 +3433,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Marinoni",
   sestiere: "None",
   layer: L.circleMarker([45.47427, 12.02107], {
     radius: 1.5,
@@ -3150,6 +3445,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Marte",
   sestiere: "S. Maria Maggiore",
   layer: L.circleMarker([46.1349546, 8.4672779], {
     radius: 1.5,
@@ -3161,6 +3457,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Martini",
   sestiere: "Carmini. Vedi Briati",
   layer: L.circleMarker([45.4407753, 12.3353719], {
     radius: 1.5,
@@ -3172,6 +3469,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Marzaria",
   sestiere: "None",
   layer: L.circleMarker([45.435115, 12.338637], {
     radius: 1.5,
@@ -3183,6 +3481,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Matta",
   sestiere: "None",
   layer: L.circleMarker([45.432596, 12.312728], {
     radius: 1.5,
@@ -3194,6 +3493,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mazzini",
   sestiere: "None",
   layer: L.circleMarker([45.4372766, 12.3355222], {
     radius: 1.5,
@@ -3205,6 +3505,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mazzorana",
   sestiere: "SS. Apostoli",
   layer: L.circleMarker([38.112143, 13.365138], {
     radius: 1.5,
@@ -3216,6 +3517,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mazzorini",
   sestiere: "S. Geremia",
   layer: L.circleMarker([45.4371908, 12.3345898], {
     radius: 1.5,
@@ -3227,6 +3529,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Màndola",
   sestiere: "S. Benedetto",
   layer: L.circleMarker([45.545579829, 11.608615677], {
     radius: 1.5,
@@ -3238,6 +3541,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Màsena",
   sestiere: "SS. Ermagora e Fortunato",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3249,6 +3553,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mettivia",
   sestiere: "S. Luca",
   layer: L.circleMarker([38.148371, 16.0660454], {
     radius: 1.5,
@@ -3260,6 +3565,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Michieli",
   sestiere: "Birri. M indice",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3271,6 +3577,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Milion",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3282,6 +3589,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Minestra",
   sestiere: "None",
   layer: L.circleMarker([45.43244, 12.311777], {
     radius: 1.5,
@@ -3293,6 +3601,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mistra",
   sestiere: "S. Barnaba",
   layer: L.circleMarker([43.46092, 12.241243], {
     radius: 1.5,
@@ -3304,6 +3613,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Molo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3315,6 +3625,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Moncato",
   sestiere: "None",
   layer: L.circleMarker([45.503934, 12.276675], {
     radius: 1.5,
@@ -3326,6 +3637,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Montorio",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3337,6 +3649,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morando",
   sestiere: "San Canciano",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -3348,6 +3661,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Moretta",
   sestiere: "S. Samuele",
   layer: L.circleMarker([45.0677446, 7.655074], {
     radius: 1.5,
@@ -3359,6 +3673,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morosina",
   sestiere: "S. Barnaba",
   layer: L.circleMarker([37.649439, 13.106128], {
     radius: 1.5,
@@ -3370,6 +3685,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morti",
   sestiere: "S. Cassiano",
   layer: L.circleMarker([44.9995, 9.1105], {
     radius: 1.5,
@@ -3381,6 +3697,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Morto",
   sestiere: "Giudecca",
   layer: L.circleMarker([38.0146859, 14.33210414668374], {
     radius: 1.5,
@@ -3392,6 +3709,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mosche",
   sestiere: "S. Pantaleone",
   layer: L.circleMarker([44.043391, 12.001822], {
     radius: 1.5,
@@ -3403,6 +3721,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Moschette",
   sestiere: "S. Giustina",
   layer: L.circleMarker([46.0019798, 8.5412682], {
     radius: 1.5,
@@ -3414,6 +3733,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Mosto",
   sestiere: "S. Angelo",
   layer: L.circleMarker([43.612013, 11.653386], {
     radius: 1.5,
@@ -3425,6 +3745,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nazario Sauro",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3436,6 +3757,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nuovo commercio",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.434406, 12.331597], {
     radius: 1.5,
@@ -3447,6 +3769,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Navaro",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3458,6 +3781,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nicolosi",
   sestiere: "None",
   layer: L.circleMarker([45.4595259, 9.20729], {
     radius: 1.5,
@@ -3469,6 +3793,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Novello",
   sestiere: "S. Vio",
   layer: L.circleMarker([41.86294, 13.24588], {
     radius: 1.5,
@@ -3480,6 +3805,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nómboli",
   sestiere: "S. Tomà",
   layer: L.circleMarker([41.9860393, 12.4039236], {
     radius: 1.5,
@@ -3491,6 +3817,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nónzolo",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.433251581, 12.336247942], {
     radius: 1.5,
@@ -3502,6 +3829,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Nuova",
   sestiere: "Castello",
   layer: L.circleMarker([43.612013, 11.653386], {
     radius: 1.5,
@@ -3513,6 +3841,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Occhio grosso",
   sestiere: "S. Martino",
   layer: L.circleMarker([41.598589, 13.152482], {
     radius: 1.5,
@@ -3524,6 +3853,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ospedaletto",
   sestiere: "None",
   layer: L.circleMarker([45.661482, 12.078008], {
     radius: 1.5,
@@ -3535,6 +3865,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Oca",
   sestiere: "SS. Apostoli",
   layer: L.circleMarker([45.084173, 7.412398], {
     radius: 1.5,
@@ -3546,6 +3877,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Oche",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.43996833385791, 12.32760161121866], {
     radius: 1.5,
@@ -3557,6 +3889,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ogio",
   sestiere: "None",
   layer: L.circleMarker([45.437845, 12.332732], {
     radius: 1.5,
@@ -3568,6 +3901,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Oratorio",
   sestiere: "Fava",
   layer: L.circleMarker([45.432947, 12.335391], {
     radius: 1.5,
@@ -3579,6 +3913,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Orese",
   sestiere: "None",
   layer: L.circleMarker([46.094785, 13.4317599], {
     radius: 1.5,
@@ -3590,6 +3925,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Orto",
   sestiere: "None",
   layer: L.circleMarker([45.442955, 10.994935], {
     radius: 1.5,
@@ -3601,6 +3937,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Oscura",
   sestiere: "San Matteo. Vedi Scura",
   layer: L.circleMarker([45.440522, 12.327284], {
     radius: 1.5,
@@ -3612,6 +3949,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Osmarin",
   sestiere: "S. Provolo",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -3623,6 +3961,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ostreghe",
   sestiere: "S. Maria Zobenigo",
   layer: L.circleMarker([45.43223391480749, 12.33249653157198], {
     radius: 1.5,
@@ -3634,6 +3973,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Otturati",
   sestiere: "S. Giustina",
   layer: L.circleMarker([46.012791, 11.321092], {
     radius: 1.5,
@@ -3645,6 +3985,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pasqualigo Nicolò",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3656,6 +3997,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Passion",
   sestiere: "None",
   layer: L.circleMarker([45.434406, 12.331597], {
     radius: 1.5,
@@ -3667,6 +4009,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piazza San Marco.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3678,6 +4021,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piere vive.",
   sestiere: "None",
   layer: L.circleMarker([45.433844, 12.335856], {
     radius: 1.5,
@@ -3689,6 +4033,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pietre vive o Bògnolo",
   sestiere: "None",
   layer: L.circleMarker([39.21437, 9.105645], {
     radius: 1.5,
@@ -3700,6 +4045,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pietro da Liesina.",
   sestiere: "None",
   layer: L.circleMarker([45.5096751, 12.6520612], {
     radius: 1.5,
@@ -3711,6 +4057,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pio X",
   sestiere: "S. Bartolomeo. P indice",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3722,6 +4069,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piovan detto del Volto",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3733,6 +4081,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: ")",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3744,6 +4093,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pisani",
   sestiere: "S. Simeon Grande. Vedi Pugliese",
   layer: L.circleMarker([45.4403019, 12.32241223287671], {
     radius: 1.5,
@@ -3755,6 +4105,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pompeo Molmenti.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -3766,6 +4117,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ponte dell’Accademia.",
   sestiere: "None",
   layer: L.circleMarker([45.44457, 12.321188], {
     radius: 1.5,
@@ -3777,6 +4129,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ponte delle Guglie.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3788,6 +4141,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ponte di Rialto.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3799,6 +4153,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Portico scuro",
   sestiere: "None",
   layer: L.circleMarker([41.086022, 14.063523], {
     radius: 1.5,
@@ -3810,6 +4165,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Posta",
   sestiere: "SS. Apostoli",
   layer: L.circleMarker([45.4865393, 12.2347731], {
     radius: 1.5,
@@ -3821,6 +4177,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Poste Vecchie",
   sestiere: "San Cassiano",
   layer: L.circleMarker([46.726736, 12.176916], {
     radius: 1.5,
@@ -3832,6 +4189,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pozzetto d’oro",
   sestiere: "None",
   layer: L.circleMarker([45.44606944438299, 12.3321915747552], {
     radius: 1.5,
@@ -3843,6 +4201,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pozzo d’oro",
   sestiere: "SS. Apostoli",
   layer: L.circleMarker([45.442086, 12.337616], {
     radius: 1.5,
@@ -3854,6 +4213,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pozzo Roverso",
   sestiere: "None",
   layer: L.circleMarker([43.899347, 12.263494], {
     radius: 1.5,
@@ -3865,6 +4225,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Prete Zoto",
   sestiere: "S. Giuseppe",
   layer: L.circleMarker([45.43115, 12.357789], {
     radius: 1.5,
@@ -3876,6 +4237,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Preti o Catula",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -3887,6 +4249,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Clero",
   sestiere: "None",
   layer: L.circleMarker([45.63845712718431, 11.23499559766007], {
     radius: 1.5,
@@ -3898,6 +4261,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Prigioni",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -3909,6 +4273,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Padovani",
   sestiere: "Santi Filippo e Giacomo",
   layer: L.circleMarker([45.98397, 13.473177], {
     radius: 1.5,
@@ -3920,6 +4285,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pagan",
   sestiere: "S. Maria Maggiore",
   layer: L.circleMarker([46.1349546, 8.4672779], {
     radius: 1.5,
@@ -3931,6 +4297,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Palada",
   sestiere: "Giudecca",
   layer: L.circleMarker([38.113148, 13.344688], {
     radius: 1.5,
@@ -3942,6 +4309,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Paludo",
   sestiere: "SS. Giovanni e Paolo",
   layer: L.circleMarker([45.429801, 12.357996], {
     radius: 1.5,
@@ -3953,6 +4321,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Panateria",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -3964,6 +4333,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Papadopoli",
   sestiere: "S. Aponal. Vedi Tiepolo",
   layer: L.circleMarker([45.4365582, 12.33158076722926], {
     radius: 1.5,
@@ -3975,6 +4345,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Paralion",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -3986,6 +4357,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Parrocchia",
   sestiere: "None",
   layer: L.circleMarker([45.43659705, 12.20532785783758], {
     radius: 1.5,
@@ -3997,6 +4369,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Parucheta",
   sestiere: "None",
   layer: L.circleMarker([45.439372, 12.328195], {
     radius: 1.5,
@@ -4008,6 +4381,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pasina",
   sestiere: "S. Silvestro",
   layer: L.circleMarker([39.96037, 18.09449], {
     radius: 1.5,
@@ -4019,6 +4393,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pegoloto",
   sestiere: "Santi Ermagora e Fortunato. Vedi Pegola",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4030,6 +4405,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pellegrin",
   sestiere: "San Marco",
   layer: L.circleMarker([41.959456, 12.744146], {
     radius: 1.5,
@@ -4041,6 +4417,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pensieri",
   sestiere: "S. Maria Maggiore",
   layer: L.circleMarker([46.1349546, 8.4672779], {
     radius: 1.5,
@@ -4052,6 +4429,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Perleri",
   sestiere: "S. Leonardo. P indice",
   layer: L.circleMarker([45.444492, 12.327242], {
     radius: 1.5,
@@ -4063,6 +4441,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piacentini",
   sestiere: "None",
   layer: L.circleMarker([45.39717865, 11.78003549568891], {
     radius: 1.5,
@@ -4074,6 +4453,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pianton",
   sestiere: "San Giovanni Nuovo",
   layer: L.circleMarker([45.544556, 12.267281], {
     radius: 1.5,
@@ -4085,6 +4465,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piavola",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4096,6 +4477,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piazza",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -4107,6 +4489,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piccolo",
   sestiere: "Giudecca",
   layer: L.circleMarker([44.68947553098847, 9.328059146055452], {
     radius: 1.5,
@@ -4118,6 +4501,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pignatera",
   sestiere: "S. Francesco della Vigna. Vedi Pignater",
   layer: L.circleMarker([45.43501, 12.347446], {
     radius: 1.5,
@@ -4129,6 +4513,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pindemonte",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4140,6 +4525,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pinelli",
   sestiere: "None",
   layer: L.circleMarker([45.388368, 12.349571], {
     radius: 1.5,
@@ -4151,6 +4537,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piombo",
   sestiere: "S. Marina",
   layer: L.circleMarker([45.831422, 7.722934], {
     radius: 1.5,
@@ -4162,6 +4549,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piova",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -4173,6 +4561,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pisana",
   sestiere: "S. Alvise",
   layer: L.circleMarker([45.4371908, 12.3345898], {
     radius: 1.5,
@@ -4184,6 +4573,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Piscina",
   sestiere: "None",
   layer: L.circleMarker([45.429609, 12.328688], {
     radius: 1.5,
@@ -4195,6 +4585,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Polacca",
   sestiere: "Castello",
   layer: L.circleMarker([45.986525, 12.32989], {
     radius: 1.5,
@@ -4206,6 +4597,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pomeri",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4217,6 +4609,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pontèi",
   sestiere: "S. Cassiano",
   layer: L.circleMarker([43.01748, 11.95896], {
     radius: 1.5,
@@ -4228,6 +4621,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Portón",
   sestiere: "Madonna dell",
   layer: L.circleMarker([45.690996264, 12.468435638], {
     radius: 1.5,
@@ -4239,6 +4633,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pozzo",
   sestiere: "Cannaregio. Vedi Pozzetto",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4250,6 +4645,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Presepio",
   sestiere: "S. Silvestro",
   layer: L.circleMarker([45.822164, 10.465235], {
     radius: 1.5,
@@ -4261,6 +4657,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Cason",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4272,6 +4669,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Pugnaletto",
   sestiere: "None",
   layer: L.circleMarker([45.4349, 12.348307], {
     radius: 1.5,
@@ -4283,6 +4681,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Punta",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4294,6 +4693,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Purità",
   sestiere: "S. Barnaba",
   layer: L.circleMarker([45.831422, 7.722934], {
     radius: 1.5,
@@ -4305,6 +4705,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Quartier",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.425247, 12.363689], {
     radius: 1.5,
@@ -4316,6 +4717,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Regina",
   sestiere: "San Cassiano",
   layer: L.circleMarker([41.60665, 13.96034], {
     radius: 1.5,
@@ -4327,6 +4729,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Regina",
   sestiere: "San Bartolammeo",
   layer: L.circleMarker([45.431246, 12.358165], {
     radius: 1.5,
@@ -4338,6 +4741,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Regina d’Ungheria",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4349,6 +4753,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Renier o del Pistor",
   sestiere: "None",
   layer: L.circleMarker([45.630601, 9.23637], {
     radius: 1.5,
@@ -4360,6 +4765,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rialto Nuovo",
   sestiere: "None",
   layer: L.circleMarker([45.437441, 12.335391], {
     radius: 1.5,
@@ -4371,6 +4777,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Riccardo Selvatico",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4382,6 +4789,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rio Terrà",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4393,6 +4801,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Riva",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4404,6 +4813,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rizzo",
   sestiere: "S. Cassiano",
   layer: L.circleMarker([41.174677, 14.591426], {
     radius: 1.5,
@@ -4415,6 +4825,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rosa",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([45.432524, 12.31589885971383], {
     radius: 1.5,
@@ -4426,6 +4837,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rota",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4437,6 +4849,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rotta",
   sestiere: "S. Severo",
   layer: L.circleMarker([41.6897761, 15.3776211], {
     radius: 1.5,
@@ -4448,6 +4861,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ruga Bella.",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4459,6 +4873,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Racchetta",
   sestiere: "Santa Catterina",
   layer: L.circleMarker([46.08961, 9.12856], {
     radius: 1.5,
@@ -4470,6 +4885,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ragusei",
   sestiere: "Carmini",
   layer: L.circleMarker([45.442268, 12.321417], {
     radius: 1.5,
@@ -4481,6 +4897,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ramo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4492,6 +4909,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Raspi",
   sestiere: "San Cassiano",
   layer: L.circleMarker([45.4371908, 12.3345898], {
     radius: 1.5,
@@ -4503,6 +4921,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Raspina",
   sestiere: "None",
   layer: L.circleMarker([45.573354, 9.899866], {
     radius: 1.5,
@@ -4514,6 +4933,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Riformati",
   sestiere: "S. Bonaventura",
   layer: L.circleMarker([43.954354, 11.375253], {
     radius: 1.5,
@@ -4525,6 +4945,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Righetti",
   sestiere: "None",
   layer: L.circleMarker([45.432371, 12.331133], {
     radius: 1.5,
@@ -4536,6 +4957,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rigo",
   sestiere: "S. Fosca",
   layer: L.circleMarker([45.442189118, 12.332640378], {
     radius: 1.5,
@@ -4547,6 +4969,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rio",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4558,6 +4981,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rioda",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4569,6 +4993,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rivetta",
   sestiere: "S. Matteo di Rialto",
   layer: L.circleMarker([45.44045, 12.32632], {
     radius: 1.5,
@@ -4580,6 +5005,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rizza",
   sestiere: "S. Marco",
   layer: L.circleMarker([46.06848, 11.205338], {
     radius: 1.5,
@@ -4591,6 +5017,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Roda",
   sestiere: "San Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -4602,6 +5029,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Romite",
   sestiere: "None",
   layer: L.circleMarker([43.741044, 11.224517], {
     radius: 1.5,
@@ -4613,6 +5041,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rossa",
   sestiere: "Carmini",
   layer: L.circleMarker([45.435533, 12.343006], {
     radius: 1.5,
@@ -4624,6 +5053,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rossi (Calle)",
   sestiere: "S. Sebastiano",
   layer: L.circleMarker([40.7546799, 14.44990269948502], {
     radius: 1.5,
@@ -4635,6 +5065,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rosso",
   sestiere: "Carmini",
   layer: L.circleMarker([45.427756, 12.363319], {
     radius: 1.5,
@@ -4646,6 +5077,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rubina",
   sestiere: "S. Alvise",
   layer: L.circleMarker([45.647777622, 11.785524177], {
     radius: 1.5,
@@ -4657,6 +5089,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ruga",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4668,6 +5101,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Rughetta",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4679,6 +5113,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Andrea",
   sestiere: "S. Sofia",
   layer: L.circleMarker([41.298616, 16.075044], {
     radius: 1.5,
@@ -4690,6 +5125,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Boldo",
   sestiere: "None",
   layer: L.circleMarker([40.10247, 18.447368], {
     radius: 1.5,
@@ -4701,6 +5137,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Daniele",
   sestiere: "None",
   layer: L.circleMarker([38.4164359, 16.4821844], {
     radius: 1.5,
@@ -4712,6 +5149,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Gallo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4723,6 +5161,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Giacomo",
   sestiere: "Giudecca",
   layer: L.circleMarker([45.4258541, 12.32299911702108], {
     radius: 1.5,
@@ -4734,6 +5173,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Giovanni",
   sestiere: "None",
   layer: L.circleMarker([45.43915665, 12.33726116981328], {
     radius: 1.5,
@@ -4745,6 +5185,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Giovanni Decollato.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4756,6 +5197,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Giovanni in Bragora",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4767,6 +5209,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Giuseppe",
   sestiere: "None",
   layer: L.circleMarker([45.43045878162736, 12.35628477662301], {
     radius: 1.5,
@@ -4778,6 +5221,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Leonardo",
   sestiere: "None",
   layer: L.circleMarker([45.4397845, 12.34151569492201], {
     radius: 1.5,
@@ -4789,6 +5233,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Perina",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4800,6 +5245,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Lucia",
   sestiere: "None",
   layer: L.circleMarker([45.432361, 12.334813], {
     radius: 1.5,
@@ -4811,6 +5257,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Margherita.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4822,6 +5269,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Maria del Rosario",
   sestiere: "None",
   layer: L.circleMarker([45.33272, 12.31705], {
     radius: 1.5,
@@ -4833,6 +5281,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Trovaso.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4844,6 +5293,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Vitale.",
   sestiere: "None",
   layer: L.circleMarker([45.61555, 12.18632], {
     radius: 1.5,
@@ -4855,6 +5305,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Zorzi",
   sestiere: "S. Giovanni Decollato",
   layer: L.circleMarker([45.4353, 12.333809], {
     radius: 1.5,
@@ -4866,6 +5317,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "S. Zuane.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -4877,6 +5329,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sacca",
   sestiere: "S. Francesco della Vigna",
   layer: L.circleMarker([44.901304, 9.85164], {
     radius: 1.5,
@@ -4888,6 +5341,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Santissimo",
   sestiere: "S. Stefano",
   layer: L.circleMarker([44.166305, 9.612214], {
     radius: 1.5,
@@ -4899,6 +5353,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scala Matta",
   sestiere: "None",
   layer: L.circleMarker([46.107687, 10.407651], {
     radius: 1.5,
@@ -4910,6 +5365,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scimia",
   sestiere: "S. Salvatore",
   layer: L.circleMarker([41.147151, 14.63729], {
     radius: 1.5,
@@ -4921,6 +5377,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scuola",
   sestiere: "None",
   layer: L.circleMarker([45.4446333, 12.3255604], {
     radius: 1.5,
@@ -4932,6 +5389,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scuola",
   sestiere: "Maddalena",
   layer: L.circleMarker([45.4555641, 12.3850734], {
     radius: 1.5,
@@ -4943,6 +5401,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scuola dei Fabbri",
   sestiere: "S. Moisè. Vedi Fabbri",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -4954,6 +5413,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sottoportico Scuro",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -4965,6 +5425,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spade",
   sestiere: "Rialto",
   layer: L.circleMarker([45.4386718, 12.33454066470038], {
     radius: 1.5,
@@ -4976,6 +5437,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spezier",
   sestiere: "S. Stin. Vedi Donà",
   layer: L.circleMarker([45.43798965, 12.3269113984375], {
     radius: 1.5,
@@ -4987,6 +5449,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spezier detta della Chiesa",
   sestiere: "None",
   layer: L.circleMarker([45.252228, 9.833842], {
     radius: 1.5,
@@ -4998,6 +5461,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spiron d’oro",
   sestiere: "None",
   layer: L.circleMarker([45.43465895, 12.33613733338292], {
     radius: 1.5,
@@ -5009,6 +5473,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sporca o Vallaressa",
   sestiere: "S. Luca",
   layer: L.circleMarker([45.4406169, 12.33212350840301], {
     radius: 1.5,
@@ -5020,6 +5485,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Squero",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5031,6 +5497,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Squero vecchio",
   sestiere: "SS. Giovanni e Paolo",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5042,6 +5509,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "SS. Ermagora e Fortunato",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -5053,6 +5521,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Strada ferrata",
   sestiere: "None",
   layer: L.circleMarker([45.4371908, 12.3345898], {
     radius: 1.5,
@@ -5064,6 +5533,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Strada Nova.",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -5075,6 +5545,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sabbioni",
   sestiere: "S. Geremia",
   layer: L.circleMarker([45.44719, 12.42541], {
     radius: 1.5,
@@ -5086,6 +5557,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sabbión",
   sestiere: "S. Vito",
   layer: L.circleMarker([45.438505, 12.304526], {
     radius: 1.5,
@@ -5097,6 +5569,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sacco",
   sestiere: "None",
   layer: L.circleMarker([45.426668, 12.362261], {
     radius: 1.5,
@@ -5108,6 +5581,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sacrestia",
   sestiere: "S. Giovanni Novo",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5119,6 +5593,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Salviati",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5130,6 +5605,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sangiantoffetti",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5141,6 +5617,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Santa",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.433251581, 12.336247942], {
     radius: 1.5,
@@ -5152,6 +5629,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Santo",
   sestiere: "S. Simeon Grande. Vedi Cimitero",
   layer: L.circleMarker([45.4403019, 12.32241223287671], {
     radius: 1.5,
@@ -5163,6 +5641,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Santorio",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5174,6 +5653,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scacco",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5185,6 +5665,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scalzi",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5196,6 +5677,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Schiavolina",
   sestiere: "None",
   layer: L.circleMarker([45.437913, 12.341542], {
     radius: 1.5,
@@ -5207,6 +5689,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scrimia",
   sestiere: "S. Cassiano. Vedi Pin",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5218,6 +5701,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scuole",
   sestiere: "None",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5229,6 +5713,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Scura",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -5240,6 +5725,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Segretari",
   sestiere: "S. Giuliano. S indice",
   layer: L.circleMarker([45.43565323039736, 12.33861602311435], {
     radius: 1.5,
@@ -5251,6 +5737,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Selvatico",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5262,6 +5749,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sernagiotto",
   sestiere: "S. Giovanni Grisostomo",
   layer: L.circleMarker([45.43915665, 12.33726116981328], {
     radius: 1.5,
@@ -5273,6 +5761,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Servo",
   sestiere: "S. Fosca",
   layer: L.circleMarker([45.4432692, 12.33207255], {
     radius: 1.5,
@@ -5284,6 +5773,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sestiere",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5295,6 +5785,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sforza",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5306,6 +5797,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sicurtà",
   sestiere: "Rialto",
   layer: L.circleMarker([37.562256, 14.275865], {
     radius: 1.5,
@@ -5317,6 +5809,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Sottoportici",
   sestiere: "Rialto",
   layer: L.circleMarker([45.718696, 11.3586745], {
     radius: 1.5,
@@ -5328,6 +5821,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Speron",
   sestiere: "None",
   layer: L.circleMarker([45.446468, 12.324925], {
     radius: 1.5,
@@ -5339,6 +5833,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spini",
   sestiere: "Giudecca",
   layer: L.circleMarker([43.783986, 11.251516], {
     radius: 1.5,
@@ -5350,6 +5845,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spiriti",
   sestiere: "Tolentini",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5361,6 +5857,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Spizier",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -5372,6 +5869,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Squartai",
   sestiere: "Tolentini. Nell",
   layer: L.circleMarker([44.6978389, 10.6304971], {
     radius: 1.5,
@@ -5383,6 +5881,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Stivaletto",
   sestiere: "S. Silvestro",
   layer: L.circleMarker([43.954354, 11.375253], {
     radius: 1.5,
@@ -5394,6 +5893,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Stradon",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.43996833385791, 12.32760161121866], {
     radius: 1.5,
@@ -5405,6 +5905,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Strazzarol",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.468455, 12.276277], {
     radius: 1.5,
@@ -5416,6 +5917,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Stupenda",
   sestiere: "S. Giovanni Nuovo",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5427,6 +5929,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Teatro",
   sestiere: "S. Samuele",
   layer: L.circleMarker([45.4337096, 12.3338572], {
     radius: 1.5,
@@ -5438,6 +5941,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Teatro",
   sestiere: "S. Angelo",
   layer: L.circleMarker([41.891945, 12.47976036540656], {
     radius: 1.5,
@@ -5449,6 +5953,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Teatro",
   sestiere: "S. Benedetto. Vedi S. Benedetto",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5460,6 +5965,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Teatro",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.407162, 12.36282], {
     radius: 1.5,
@@ -5471,6 +5977,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Teatro o Lavezzara",
   sestiere: "None",
   layer: L.circleMarker([45.432551, 12.352359], {
     radius: 1.5,
@@ -5482,6 +5989,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Testori",
   sestiere: "S. Felice. Vedi Pali",
   layer: L.circleMarker([45.4417931, 12.33336098162965], {
     radius: 1.5,
@@ -5493,6 +6001,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tiepolo Giambattista",
   sestiere: "S. Giuseppe. T indice",
   layer: L.circleMarker([45.4372766, 12.3355222], {
     radius: 1.5,
@@ -5504,6 +6013,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Torretta",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.43486785, 12.33800582263906], {
     radius: 1.5,
@@ -5515,6 +6025,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Torretta",
   sestiere: "S. Girolamo",
   layer: L.circleMarker([45.759449, 12.703203], {
     radius: 1.5,
@@ -5526,6 +6037,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Traghetto Vecchio",
   sestiere: "S. Tomà",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5537,6 +6049,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tre Archi",
   sestiere: "S. Giobbe. Vedi S. Giobbe",
   layer: L.circleMarker([45.4462802, 12.3197683], {
     radius: 1.5,
@@ -5548,6 +6061,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tre Croci",
   sestiere: "None",
   layer: L.circleMarker([45.50406, 12.278959], {
     radius: 1.5,
@@ -5559,6 +6073,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tabacchi",
   sestiere: "None",
   layer: L.circleMarker([45.438282, 12.318108], {
     radius: 1.5,
@@ -5570,6 +6085,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tagliacalze",
   sestiere: "Castello",
   layer: L.circleMarker([45.628642, 9.986953], {
     radius: 1.5,
@@ -5581,6 +6097,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tapezzier",
   sestiere: "S. Polo",
   layer: L.circleMarker([45.43794695, 12.32932762665714], {
     radius: 1.5,
@@ -5592,6 +6109,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Terco",
   sestiere: "Castello",
   layer: L.circleMarker([42.7114093, 12.28171988828789], {
     radius: 1.5,
@@ -5603,6 +6121,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Terrazza",
   sestiere: "None",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5614,6 +6133,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Terrazzera",
   sestiere: "S. Giovanni in Bragora",
   layer: L.circleMarker([45.426668, 12.362261], {
     radius: 1.5,
@@ -5625,6 +6145,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Terren",
   sestiere: "S. Nicolò",
   layer: L.circleMarker([45.408607304, 11.872589049], {
     radius: 1.5,
@@ -5636,6 +6157,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tintoretto",
   sestiere: "Madonna dell",
   layer: L.circleMarker([45.4465132, 12.33254471185512], {
     radius: 1.5,
@@ -5647,6 +6169,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tiozzi",
   sestiere: "S. Eustachio",
   layer: L.circleMarker([44.0250899, 10.1789429], {
     radius: 1.5,
@@ -5658,6 +6181,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Toletta",
   sestiere: "SS. Gervasio e Protasio",
   layer: L.circleMarker([45.4319423, 12.3257978], {
     radius: 1.5,
@@ -5669,6 +6193,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tornielli",
   sestiere: "Maddalena. T indice",
   layer: L.circleMarker([45.44298945, 12.33110721102099], {
     radius: 1.5,
@@ -5680,6 +6205,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Tramezina",
   sestiere: "None",
   layer: L.circleMarker([46.224293, 13.122374], {
     radius: 1.5,
@@ -5691,6 +6217,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Trapolin",
   sestiere: "San Marziale",
   layer: L.circleMarker([45.58014, 12.26978], {
     radius: 1.5,
@@ -5702,6 +6229,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Trevisana",
   sestiere: "S. Maria Formosa",
   layer: L.circleMarker([45.74074, 12.312598], {
     radius: 1.5,
@@ -5713,6 +6241,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Trevisani",
   sestiere: "S. Marziale",
   layer: L.circleMarker([45.592066, 12.508526], {
     radius: 1.5,
@@ -5724,6 +6253,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ufficio della Seta",
   sestiere: "S. Gio. Grisostomo. U indice",
   layer: L.circleMarker([45.43246, 12.33344], {
     radius: 1.5,
@@ -5735,6 +6265,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ugo Foscolo",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5746,6 +6277,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Van Axel",
   sestiere: "None",
   layer: L.circleMarker([45.581192, 12.561157], {
     radius: 1.5,
@@ -5757,6 +6289,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vecchia",
   sestiere: "Castello",
   layer: L.circleMarker([45.4346809, 12.35091521889801], {
     radius: 1.5,
@@ -5768,6 +6301,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vecchia",
   sestiere: "Giudecca",
   layer: L.circleMarker([45.4258541, 12.32299911702108], {
     radius: 1.5,
@@ -5779,6 +6313,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vendramin",
   sestiere: "S. Fosca",
   layer: L.circleMarker([45.4432692, 12.33207255], {
     radius: 1.5,
@@ -5790,6 +6325,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Ventidue Marzo",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.492486, 12.24211], {
     radius: 1.5,
@@ -5801,6 +6337,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vida",
   sestiere: "S. Samuele",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5812,6 +6349,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vida o delle Locande",
   sestiere: "None",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -5823,6 +6361,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vittorio Emanuele",
   sestiere: "SS. Apostoli",
   layer: L.circleMarker([43.774491, 11.2430377], {
     radius: 1.5,
@@ -5834,6 +6373,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vecchi",
   sestiere: "S. Sebastiano",
   layer: L.circleMarker([43.55402, 10.34891], {
     radius: 1.5,
@@ -5845,6 +6385,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vele",
   sestiere: "S. Lio",
   layer: L.circleMarker([45.442919, 12.327493], {
     radius: 1.5,
@@ -5856,6 +6397,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Veneziana",
   sestiere: "S. Marco",
   layer: L.circleMarker([45.4335879, 12.3392868], {
     radius: 1.5,
@@ -5867,6 +6409,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vento",
   sestiere: "S. Basilio",
   layer: L.circleMarker([43.954354, 11.375253], {
     radius: 1.5,
@@ -5878,6 +6421,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Venzata o del Caustico",
   sestiere: "None",
   layer: L.circleMarker([41.446681, 12.92439], {
     radius: 1.5,
@@ -5889,6 +6433,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Verona",
   sestiere: "S. Fantino",
   layer: L.circleMarker([38.9734668, 17.0564994], {
     radius: 1.5,
@@ -5900,6 +6445,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Verrocchio",
   sestiere: "SS. Giovanni e Paolo. V indice",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5911,6 +6457,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Veste",
   sestiere: "S. Fantino",
   layer: L.circleMarker([38.9734668, 17.0564994], {
     radius: 1.5,
@@ -5922,6 +6469,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vicenza",
   sestiere: "S. Moisè",
   layer: L.circleMarker([45.479006, 12.576457], {
     radius: 1.5,
@@ -5933,6 +6481,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vigna",
   sestiere: "None",
   layer: L.circleMarker([45.55082, 12.07097], {
     radius: 1.5,
@@ -5944,6 +6493,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Vitelli",
   sestiere: "None",
   layer: L.circleMarker([45.446031, 12.326121], {
     radius: 1.5,
@@ -5955,6 +6505,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Widman",
   sestiere: "None",
   layer: L.circleMarker([45.437934, 12.331647], {
     radius: 1.5,
@@ -5966,6 +6517,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Zambelli",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.4407079, 12.3435131562899], {
     radius: 1.5,
@@ -5977,6 +6529,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Zavater",
   sestiere: "SS. Ermagora e Fortunato",
   layer: L.circleMarker([45.44364, 12.327618], {
     radius: 1.5,
@@ -5988,6 +6541,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Zogia",
   sestiere: "S. Giuliano",
   layer: L.circleMarker([45.825557697, 12.168907277], {
     radius: 1.5,
@@ -5999,6 +6553,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Zotte",
   sestiere: "S. Felice",
   layer: L.circleMarker([45.46667, 12.28333], {
     radius: 1.5,
@@ -6010,6 +6565,7 @@ markers.push({
 markers[markers.length-1].layer.addTo(map);
 
 markers.push({
+  nome: "Zusto",
   sestiere: "S. Giacomo dall",
   layer: L.circleMarker([45.361509, 10.222826], {
     radius: 1.5,
@@ -6020,16 +6576,31 @@ markers.push({
 });
 markers[markers.length-1].layer.addTo(map);
 
-document.getElementById("sestiereSelect").addEventListener("change", function() {
-  var v = this.value;
+function updateMarkers() {
+  var s = document.getElementById("sestiereSelect").value.toLowerCase();
+  var q = document.getElementById("search").value.toLowerCase();
+  var firstMatch = null;
+
   markers.forEach(function(m) {
-    if (v === "ALL" || m.sestiere === v) {
+    var matchS = (s === "all" || m.sestiere.toLowerCase() === s);
+    var matchQ = (q === "" || m.nome.toLowerCase().includes(q));
+
+    if (matchS && matchQ) {
       map.addLayer(m.layer);
+      if (!firstMatch) firstMatch = m;
     } else {
       map.removeLayer(m.layer);
     }
   });
-});
+
+  if (firstMatch) {
+    map.setView(firstMatch.layer.getLatLng(), 17);
+  }
+}
+
+document.getElementById("sestiereSelect").addEventListener("change", updateMarkers);
+document.getElementById("search").addEventListener("input", updateMarkers);
 </script>
+
 </body>
 </html>
