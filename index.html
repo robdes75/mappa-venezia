@@ -5,25 +5,53 @@
 <title>Mappa Venezia – filtro e ricerca</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-body { margin:0; }
-#map { height: 100vh; }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
 
 #controls {
   position: absolute;
   top: 10px;
   left: 10px;
   z-index: 1000;
-  background: white;
-  padding: 6px;
-  border-radius: 4px;
+  background: rgba(255,255,255,0.95);
+  padding: 8px;
+  border-radius: 6px;
   font-family: sans-serif;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-#search {
-  width: 200px;
-  margin-top: 4px;
+#controls select,
+#controls input {
+  width: 220px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  #controls {
+    top: auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  #controls select,
+  #controls input {
+    width: 100%;
+    font-size: 16px;
+  }
 }
 </style>
+
 </head>
 <body>
 
@@ -39,7 +67,11 @@ body { margin:0; }
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-var map = L.map('map').setView([45.437, 12.335], 13);
+var map = L.map('map', {
+  zoomControl: true,
+  tap: false
+}).setView([45.437, 12.335], 13);
+
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
